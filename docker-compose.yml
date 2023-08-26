@@ -1,0 +1,49 @@
+version: "3.8"
+services:
+  node-app:
+    image: node:20
+    container_name: express
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: mysql-db
+      DB_USER: user
+      DB_PASSWORD: password
+      DB_DATABASE: db
+    command: npm start
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: dbnode
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_AUTHENTICATION_PLUGIN: "mysql_native_password"
+    ports:
+      - "3306:3306"
+# version: "3.8"
+# services:
+#   node-app:
+#     image: node:14 # Utilizamos la imagen de Node.js 14
+#     container_name: express
+#     volumes:
+#       - ./app:/app # Montamos el directorio local 'app' en el contenedor
+#     working_dir: /app
+#     command: npm start
+#     ports:
+#       - "3000:3000" # Mapeamos el puerto 3000 del contenedor al puerto 3000 del host
+
+#   mysql-db:
+#     image: mysql:5.7.43
+#     container_name: dbnode
+#     environment:
+#       MYSQL_ROOT_PASSWORD: root
+#       MYSQL_DATABASE: db
+#     ports:
+#       - "3306:3306" # Mapeamos el puerto 3306 del contenedor al puerto 3306 del host
+#     command: --default-authentication-plugin=mysql_native_password # Necesario para que Node.js pueda conectarse sin problemas'
